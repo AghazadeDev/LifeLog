@@ -1,2 +1,4 @@
 NSMicrophoneUsageDescription = "LifeLog нужен доступ к микрофону для голосовых заметок";
 NSSpeechRecognitionUsageDescription = "LifeLog использует распознавание речи для транскрибации голосовых заметок";
+NSFaceIDUsageDescription = "LifeLog использует Face ID для защиты вашего дневника";
+NSPhotoLibraryUsageDescription = "LifeLog нужен доступ к фото для прикрепления изображений к записям";

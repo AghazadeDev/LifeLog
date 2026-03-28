@@ -1,2 +1,4 @@
 NSMicrophoneUsageDescription = "LifeLog needs microphone access for voice notes";
 NSSpeechRecognitionUsageDescription = "LifeLog uses speech recognition to transcribe your voice notes";
+NSFaceIDUsageDescription = "LifeLog uses Face ID to protect your journal";
+NSPhotoLibraryUsageDescription = "LifeLog needs access to your photos to attach images to journal entries";

@@ -19,12 +19,19 @@ struct ExportUseCase {
 
         for (index, day) in sorted.enumerated() {
             let dateString = dateFormatter.string(from: day.date)
-            output += "=== DATE: \(dateString) ===\n\n"
+            let moodStr = day.dominantMood.map { " \($0)" } ?? ""
+            output += "=== DATE: \(dateString)\(moodStr) ===\n\n"
 
             let notes = day.notes.sorted { $0.createdAt < $1.createdAt }
             for note in notes {
                 let time = timeFormatter.string(from: note.createdAt)
-                output += "[\(time)]\nTEXT: \(note.text)\n\n"
+                let mood = note.mood ?? ""
+                let tags = note.tags.isEmpty ? "" : " [Tags: \(note.tags.joined(separator: ", "))]"
+                output += "[\(time)] \(mood)\nTEXT: \(note.text)\(tags)\n\n"
+            }
+
+            if let summary = day.aiSummary {
+                output += "AI Summary: \(summary)\n\n"
             }
 
             if index < sorted.count - 1 {

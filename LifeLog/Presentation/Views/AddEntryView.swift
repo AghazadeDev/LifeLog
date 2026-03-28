@@ -1,8 +1,10 @@
 import SwiftUI
+import PhotosUI
 
 struct AddEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AddEntryViewModel
+    @State private var selectedPhoto: PhotosPickerItem?
     private var lang = LanguageManager.shared
 
     init(viewModel: AddEntryViewModel) {
@@ -11,28 +13,68 @@ struct AddEntryView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                TextEditor(text: $viewModel.entryText)
-                    .padding(8)
-                    .background(Color(.systemGray6))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .frame(minHeight: 150)
+            ScrollView {
+                VStack(spacing: 16) {
+                    // Mood Picker
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(lang.localizedString("addEntry.mood"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        MoodPickerView(selectedMood: $viewModel.selectedMood)
+                    }
 
-                if viewModel.speechRecognizer.isRecording {
-                    liveTranscript
+                    // Text Editor
+                    TextEditor(text: $viewModel.entryText)
+                        .padding(8)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .frame(minHeight: 150)
+
+                    // Photo
+                    photoSection
+
+                    // Tags
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack {
+                            Text(lang.localizedString("addEntry.tags"))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                            if #available(iOS 26.0, *) {
+                                Button {
+                                    viewModel.autoTag()
+                                } label: {
+                                    if viewModel.isAutoTagging {
+                                        ProgressView()
+                                            .controlSize(.small)
+                                    } else {
+                                        Label(lang.localizedString("addEntry.aiTag"), systemImage: "sparkles")
+                                            .font(.caption)
+                                    }
+                                }
+                                .disabled(viewModel.entryText.isEmpty || viewModel.isAutoTagging)
+                            }
+                        }
+                        TagInputView(selectedTags: $viewModel.selectedTags)
+                    }
+
+                    // Pin toggle
+                    Toggle(lang.localizedString("addEntry.pin"), isOn: $viewModel.isPinned)
+
+                    if viewModel.speechRecognizer.isRecording {
+                        liveTranscript
+                    }
+
+                    if let error = viewModel.speechRecognizer.errorMessage {
+                        Text(error)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                    }
+
+                    micButton
                 }
-
-                if let error = viewModel.speechRecognizer.errorMessage {
-                    Text(error)
-                        .font(.caption)
-                        .foregroundStyle(.red)
-                }
-
-                micButton
-
-                Spacer()
+                .padding()
             }
-            .padding()
             .navigationTitle(lang.localizedString("addEntry.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -46,6 +88,47 @@ struct AddEntryView: View {
                     }
                     .disabled(!viewModel.canSave)
                 }
+            }
+        }
+    }
+
+    private var photoSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(lang.localizedString("addEntry.photo"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            HStack {
+                PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                    Label(lang.localizedString("addEntry.addPhoto"), systemImage: "photo.badge.plus")
+                        .font(.subheadline)
+                }
+                .onChange(of: selectedPhoto) { _, newItem in
+                    Task {
+                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                            viewModel.selectedPhotoData = data
+                        }
+                    }
+                }
+
+                if viewModel.selectedPhotoData != nil {
+                    Button {
+                        viewModel.selectedPhotoData = nil
+                        selectedPhoto = nil
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.red)
+                    }
+                }
+            }
+
+            if let photoData = viewModel.selectedPhotoData,
+               let uiImage = UIImage(data: photoData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
             }
         }
     }

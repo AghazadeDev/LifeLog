@@ -2,26 +2,82 @@
 "tab.today" = "Сегодня";
 "tab.history" = "История";
 "tab.stats" = "Статистика";
+"tab.settings" = "Настройки";
 
 /* ===== Today Screen ===== */
 "today.empty" = "Записей пока нет";
+"today.pinned" = "Закреплённые";
+"today.prompt" = "Тема для размышления";
+"today.aiInsight" = "ИИ-инсайт";
+"today.getInsight" = "Получить инсайт от ИИ";
 
 /* ===== Add Entry Screen ===== */
 "addEntry.title" = "Новая запись";
 "addEntry.cancel" = "Отмена";
 "addEntry.save" = "Сохранить";
 "addEntry.listening" = "Слушаю...";
+"addEntry.mood" = "Как вы себя чувствуете?";
+"addEntry.photo" = "Фото";
+"addEntry.addPhoto" = "Добавить фото";
+"addEntry.tags" = "Теги";
+"addEntry.aiTag" = "ИИ-теги";
+"addEntry.pin" = "Закрепить сверху";
 
 /* ===== History Screen ===== */
 "history.export" = "Экспорт";
+"history.exportText" = "Экспорт как текст";
+"history.exportPDF" = "Экспорт как PDF";
 "history.empty" = "Истории пока нет";
 "history.entryCount" = "%lld записей";
+"history.listView" = "Список";
+"history.calendarView" = "Календарь";
+"history.search" = "Поиск заметок...";
+"history.searchResults" = "Результаты поиска";
+"history.allTags" = "Все";
+
+/* ===== Day Detail ===== */
+"dayDetail.aiSummary" = "ИИ-резюме";
 
 /* ===== Stats Screen ===== */
+"stats.overview" = "Обзор";
 "stats.totalDays" = "Всего дней";
+"stats.totalNotes" = "Всего заметок";
 "stats.currentStreak" = "Текущая серия";
 "stats.longestStreak" = "Лучшая серия";
 "stats.days" = "%lld дней";
+"stats.avgPerDay" = "Среднее за день";
+"stats.moodTrend" = "Тренд настроения";
+"stats.moodDistribution" = "Распределение настроения";
+"stats.noMoodData" = "Нет данных о настроении";
+"stats.topTags" = "Популярные теги";
+"stats.aiReports" = "ИИ-отчёты";
+
+/* ===== Mood ===== */
+"mood.great" = "Отлично";
+"mood.good" = "Хорошо";
+"mood.neutral" = "Нейтрально";
+"mood.bad" = "Плохо";
+"mood.terrible" = "Ужасно";
+
+/* ===== Tags ===== */
+"tag.work" = "Работа";
+"tag.health" = "Здоровье";
+"tag.personal" = "Личное";
+"tag.goals" = "Цели";
+"tag.family" = "Семья";
+"tag.travel" = "Путешествия";
+"tag.learning" = "Обучение";
+"tag.finance" = "Финансы";
+"tag.social" = "Общение";
+"tag.creativity" = "Творчество";
+
+/* ===== AI ===== */
+"ai.title" = "ИИ-обзор дневника";
+"ai.journalReview" = "Обзор дневника";
+"ai.weeklyReport" = "Недельный отчёт";
+"ai.monthlyReport" = "Месячный отчёт";
+"ai.analyzing" = "Анализирую...";
+"ai.generate" = "Сгенерировать";
 
 /* ===== Speech Recognition ===== */
 "speech.error.micDenied" = "Доступ к микрофону запрещён";
@@ -33,19 +89,67 @@
 /* ===== Notifications ===== */
 "notification.title" = "LifeLog";
 "notification.body" = "Не забудьте записать свой день";
+"notification.streak.title" = "Не теряйте серию!";
+"notification.streak.body" = "Вы ещё не записали ничего сегодня. Продолжайте серию!";
 
 /* ===== Settings Screen ===== */
-"tab.settings" = "Настройки";
 "settings.language" = "Язык";
 "settings.language.footer" = "Выберите язык отображения приложения";
 "settings.appearance" = "Оформление";
 "settings.appearance.system" = "Системная";
 "settings.appearance.light" = "Светлая";
 "settings.appearance.dark" = "Тёмная";
+"settings.biometric.toggle" = "Блокировка с %@";
+"settings.biometric.footer" = "Требовать аутентификацию при открытии приложения";
+"settings.icloud" = "Синхронизация iCloud";
+"settings.icloud.enabled" = "Включена";
+"settings.ai" = "Функции ИИ";
+"settings.ai.available" = "Доступны";
+"settings.ai.unavailable" = "Требуется Apple Intelligence";
+"settings.ai.footer" = "Функции ИИ используют обработку на устройстве. Ваши данные остаются конфиденциальными.";
+"settings.version" = "Версия";
+
+/* ===== Biometric Lock ===== */
+"biometric.reason" = "Разблокировать LifeLog";
+"lock.subtitle" = "Ваш дневник заблокирован";
+"lock.unlock" = "Разблокировать";
 
 /* ===== Common ===== */
 "common.delete" = "Удалить";
 
+/* ===== Journal Prompts ===== */
+"prompt.01" = "За что вы благодарны сегодня?";
+"prompt.02" = "Что было лучшим моментом вашего дня?";
+"prompt.03" = "С какой трудностью вы столкнулись сегодня?";
+"prompt.04" = "Что вы узнали сегодня?";
+"prompt.05" = "Как вы помогли кому-то сегодня?";
+"prompt.06" = "Что заставило вас улыбнуться сегодня?";
+"prompt.07" = "Что бы вы сделали по-другому сегодня?";
+"prompt.08" = "Чего вы ждёте с нетерпением?";
+"prompt.09" = "Опишите своё настроение тремя словами.";
+"prompt.10" = "Какой был лучший разговор за сегодня?";
+"prompt.11" = "Над какой целью вы работали сегодня?";
+"prompt.12" = "Что вас вдохновило сегодня?";
+"prompt.13" = "Чем вы гордитесь сегодня?";
+"prompt.14" = "Что вы хотите улучшить?";
+"prompt.15" = "Как вы позаботились о себе сегодня?";
+"prompt.16" = "Что вас удивило сегодня?";
+"prompt.17" = "О чём вы сейчас думаете?";
+"prompt.18" = "Опишите момент спокойствия из сегодняшнего дня.";
+"prompt.19" = "Что придало вам энергии сегодня?";
+"prompt.20" = "Что отняло у вас энергию сегодня?";
+"prompt.21" = "Что сделает завтрашний день прекрасным?";
+"prompt.22" = "Кто повлиял на ваш день?";
+"prompt.23" = "Что вы сделали сегодня?";
+"prompt.24" = "Как вы себя сейчас чувствуете? Почему?";
+"prompt.25" = "Какие границы вы установили сегодня?";
+"prompt.26" = "Какая творческая идея пришла вам сегодня?";
+"prompt.27" = "Что из сегодняшнего дня вы хотите запомнить?";
+"prompt.28" = "Как вы вышли из зоны комфорта?";
+"prompt.29" = "Что вас сейчас интересует?";
+"prompt.30" = "Напишите письмо своему будущему «я».";
+
 /* ===== Info.plist ===== */
 "NSMicrophoneUsageDescription" = "LifeLog нужен доступ к микрофону для голосовых заметок";
 "NSSpeechRecognitionUsageDescription" = "LifeLog использует распознавание речи для транскрибации голосовых заметок";
+"NSFaceIDUsageDescription" = "LifeLog использует Face ID для защиты вашего дневника";
