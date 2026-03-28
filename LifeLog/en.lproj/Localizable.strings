@@ -8,8 +8,6 @@
 "today.empty" = "No entries yet";
 "today.pinned" = "Pinned";
 "today.prompt" = "Daily Prompt";
-"today.aiInsight" = "AI Insight";
-"today.getInsight" = "Get AI Insight";
 
 /* ===== Add Entry Screen ===== */
 "addEntry.title" = "New Entry";
@@ -20,13 +18,11 @@
 "addEntry.photo" = "Photo";
 "addEntry.addPhoto" = "Add Photo";
 "addEntry.tags" = "Tags";
-"addEntry.aiTag" = "AI Tag";
 "addEntry.pin" = "Pin to top";
 
 /* ===== History Screen ===== */
 "history.export" = "Export";
-"history.exportText" = "Export as Text";
-"history.exportPDF" = "Export as PDF";
+"history.export" = "Export";
 "history.empty" = "No history yet";
 "history.entryCount" = "%lld entries";
 "history.listView" = "List";
@@ -36,7 +32,6 @@
 "history.allTags" = "All";
 
 /* ===== Day Detail ===== */
-"dayDetail.aiSummary" = "AI Summary";
 
 /* ===== Stats Screen ===== */
 "stats.overview" = "Overview";
@@ -50,7 +45,6 @@
 "stats.moodDistribution" = "Mood Distribution";
 "stats.noMoodData" = "No mood data yet";
 "stats.topTags" = "Top Tags";
-"stats.aiReports" = "AI Reports";
 
 /* ===== Mood ===== */
 "mood.great" = "Great";
@@ -71,13 +65,6 @@
 "tag.social" = "Social";
 "tag.creativity" = "Creativity";
 
-/* ===== AI ===== */
-"ai.title" = "AI Journal Review";
-"ai.journalReview" = "Journal Review";
-"ai.weeklyReport" = "Weekly Report";
-"ai.monthlyReport" = "Monthly Report";
-"ai.analyzing" = "Analyzing...";
-"ai.generate" = "Generate";
 
 /* ===== Speech Recognition ===== */
 "speech.error.micDenied" = "Microphone permission denied";
@@ -103,10 +90,6 @@
 "settings.biometric.footer" = "Require authentication when opening the app";
 "settings.icloud" = "iCloud Sync";
 "settings.icloud.enabled" = "Enabled";
-"settings.ai" = "AI Features";
-"settings.ai.available" = "Available";
-"settings.ai.unavailable" = "Requires Apple Intelligence";
-"settings.ai.footer" = "AI features use on-device processing. Your data stays private.";
 "settings.version" = "Version";
 
 /* ===== Biometric Lock ===== */

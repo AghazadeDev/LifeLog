@@ -8,8 +8,6 @@ final class TodayViewModel {
     var pinnedNotes: [NoteEntry] = []
     var showAddEntry = false
     var dailyPrompt: String = ""
-    var dailyInsight: String?
-    var isLoadingInsight = false
 
     private let journalUseCase: JournalUseCase
     private let promptService = JournalPromptService()
@@ -34,20 +32,5 @@ final class TodayViewModel {
     func togglePin(_ note: NoteEntry) {
         journalUseCase.togglePin(note)
         loadNotes()
-    }
-
-    func loadDailyInsight() {
-        guard !isLoadingInsight else { return }
-        let allNotes = journalUseCase.fetchTodayNotes()
-        guard !allNotes.isEmpty else { return }
-
-        if #available(iOS 26.0, *) {
-            Task {
-                isLoadingInsight = true
-                let ai = AIService()
-                dailyInsight = await ai.generateDailyInsight(from: allNotes)
-                isLoadingInsight = false
-            }
-        }
     }
 }

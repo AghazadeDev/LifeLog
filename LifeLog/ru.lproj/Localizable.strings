@@ -8,8 +8,6 @@
 "today.empty" = "Записей пока нет";
 "today.pinned" = "Закреплённые";
 "today.prompt" = "Тема для размышления";
-"today.aiInsight" = "ИИ-инсайт";
-"today.getInsight" = "Получить инсайт от ИИ";
 
 /* ===== Add Entry Screen ===== */
 "addEntry.title" = "Новая запись";
@@ -20,13 +18,11 @@
 "addEntry.photo" = "Фото";
 "addEntry.addPhoto" = "Добавить фото";
 "addEntry.tags" = "Теги";
-"addEntry.aiTag" = "ИИ-теги";
 "addEntry.pin" = "Закрепить сверху";
 
 /* ===== History Screen ===== */
 "history.export" = "Экспорт";
-"history.exportText" = "Экспорт как текст";
-"history.exportPDF" = "Экспорт как PDF";
+"history.export" = "Экспорт";
 "history.empty" = "Истории пока нет";
 "history.entryCount" = "%lld записей";
 "history.listView" = "Список";
@@ -36,7 +32,6 @@
 "history.allTags" = "Все";
 
 /* ===== Day Detail ===== */
-"dayDetail.aiSummary" = "ИИ-резюме";
 
 /* ===== Stats Screen ===== */
 "stats.overview" = "Обзор";
@@ -50,7 +45,6 @@
 "stats.moodDistribution" = "Распределение настроения";
 "stats.noMoodData" = "Нет данных о настроении";
 "stats.topTags" = "Популярные теги";
-"stats.aiReports" = "ИИ-отчёты";
 
 /* ===== Mood ===== */
 "mood.great" = "Отлично";
@@ -71,13 +65,6 @@
 "tag.social" = "Общение";
 "tag.creativity" = "Творчество";
 
-/* ===== AI ===== */
-"ai.title" = "ИИ-обзор дневника";
-"ai.journalReview" = "Обзор дневника";
-"ai.weeklyReport" = "Недельный отчёт";
-"ai.monthlyReport" = "Месячный отчёт";
-"ai.analyzing" = "Анализирую...";
-"ai.generate" = "Сгенерировать";
 
 /* ===== Speech Recognition ===== */
 "speech.error.micDenied" = "Доступ к микрофону запрещён";
@@ -103,10 +90,6 @@
 "settings.biometric.footer" = "Требовать аутентификацию при открытии приложения";
 "settings.icloud" = "Синхронизация iCloud";
 "settings.icloud.enabled" = "Включена";
-"settings.ai" = "Функции ИИ";
-"settings.ai.available" = "Доступны";
-"settings.ai.unavailable" = "Требуется Apple Intelligence";
-"settings.ai.footer" = "Функции ИИ используют обработку на устройстве. Ваши данные остаются конфиденциальными.";
 "settings.version" = "Версия";
 
 /* ===== Biometric Lock ===== */

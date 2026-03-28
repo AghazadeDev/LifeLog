@@ -10,14 +10,19 @@ final class AddEntryViewModel {
     var selectedTags: [String] = []
     var isPinned = false
     var speechRecognizer = SpeechRecognizer()
-    var isAutoTagging = false
 
     private let journalUseCase: JournalUseCase
     private var onSave: (() -> Void)?
+    private var textBeforeRecording = ""
 
     init(modelContext: ModelContext, onSave: (() -> Void)? = nil) {
         self.journalUseCase = JournalUseCase(modelContext: modelContext)
         self.onSave = onSave
+        speechRecognizer.onTranscriptUpdate = { [weak self] transcript in
+            guard let self else { return }
+            let prefix = self.textBeforeRecording
+            self.entryText = prefix.isEmpty ? transcript : prefix + " " + transcript
+        }
     }
 
     var canSave: Bool {
@@ -27,13 +32,8 @@ final class AddEntryViewModel {
     func toggleRecording() {
         if speechRecognizer.isRecording {
             speechRecognizer.stopRecording()
-            if !speechRecognizer.transcript.isEmpty {
-                if !entryText.isEmpty {
-                    entryText += " "
-                }
-                entryText += speechRecognizer.transcript
-            }
         } else {
+            textBeforeRecording = entryText
             Task {
                 let authorized = await speechRecognizer.requestAuthorization()
                 if authorized {
@@ -41,21 +41,6 @@ final class AddEntryViewModel {
                 } else {
                     speechRecognizer.errorMessage = LanguageManager.shared.localizedString("speech.error.micDenied")
                 }
-            }
-        }
-    }
-
-    func autoTag() {
-        guard !entryText.isEmpty else { return }
-        if #available(iOS 26.0, *) {
-            Task {
-                isAutoTagging = true
-                let ai = AIService()
-                let tags = await ai.generateTags(for: entryText)
-                for tag in tags where !selectedTags.contains(tag) {
-                    selectedTags.append(tag)
-                }
-                isAutoTagging = false
             }
         }
     }

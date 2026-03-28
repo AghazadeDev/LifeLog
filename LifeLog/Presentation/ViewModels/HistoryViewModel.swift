@@ -21,7 +21,6 @@ final class HistoryViewModel {
 
     private let journalUseCase: JournalUseCase
     private let exportUseCase = ExportUseCase()
-    private let pdfExportUseCase = PDFExportUseCase()
 
     init(modelContext: ModelContext) {
         self.journalUseCase = JournalUseCase(modelContext: modelContext)
@@ -59,7 +58,7 @@ final class HistoryViewModel {
     var filteredDays: [DayEntry] {
         guard let tag = selectedTag else { return days }
         return days.filter { day in
-            day.notes.contains { $0.tags.contains(tag) || $0.aiTags.contains(tag) }
+            day.notes.contains { $0.tags.contains(tag) }
         }
     }
 
@@ -70,12 +69,6 @@ final class HistoryViewModel {
         }
     }
 
-    func exportPDF() {
-        exportFileURL = pdfExportUseCase.export(days: days)
-        if exportFileURL != nil {
-            showShareSheet = true
-        }
-    }
 
     private func buildCalendarData() {
         calendarData = [:]

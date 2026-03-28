@@ -19,18 +19,13 @@ struct TodayView: View {
                 }
                 .listRowBackground(Color.accentColor.opacity(0.08))
 
-                // AI Daily Insight
-                if viewModel.dailyInsight != nil || viewModel.isLoadingInsight {
-                    Section(lang.localizedString("today.aiInsight")) {
-                        insightCard
-                    }
-                }
-
                 // Pinned Notes
                 if !viewModel.pinnedNotes.isEmpty {
                     Section(lang.localizedString("today.pinned")) {
                         ForEach(viewModel.pinnedNotes, id: \.id) { note in
-                            noteRow(note, pinned: true)
+                            NavigationLink(value: note) {
+                                noteRow(note, pinned: true)
+                            }
                         }
                         .onDelete { offsets in
                             for index in offsets {
@@ -43,7 +38,9 @@ struct TodayView: View {
                 // Regular Notes
                 Section {
                     ForEach(viewModel.todayNotes, id: \.id) { note in
-                        noteRow(note, pinned: false)
+                        NavigationLink(value: note) {
+                            noteRow(note, pinned: false)
+                        }
                     }
                     .onDelete { offsets in
                         for index in offsets {
@@ -70,15 +67,6 @@ struct TodayView: View {
                         Image(systemName: "plus")
                     }
                 }
-                ToolbarItem(placement: .secondaryAction) {
-                    if #available(iOS 26.0, *) {
-                        Button {
-                            viewModel.loadDailyInsight()
-                        } label: {
-                            Label(lang.localizedString("today.getInsight"), systemImage: "sparkles")
-                        }
-                    }
-                }
             }
             .sheet(isPresented: $viewModel.showAddEntry, onDismiss: {
                 viewModel.loadNotes()
@@ -87,22 +75,22 @@ struct TodayView: View {
                     modelContext: modelContext
                 ))
             }
+            .navigationDestination(for: NoteEntry.self) { note in
+                NoteDetailView(note: note)
+            }
             .onAppear { viewModel.loadNotes() }
         }
     }
 
     private func noteRow(_ note: NoteEntry, pinned: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(alignment: .top) {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
                 if let mood = note.mood {
                     Text(mood)
                 }
                 Text(note.createdAt, format: .dateTime.hour().minute())
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .frame(width: 50, alignment: .leading)
-                Text(note.text)
-                    .lineLimit(3)
                 Spacer()
                 if pinned {
                     Image(systemName: "pin.fill")
@@ -111,25 +99,24 @@ struct TodayView: View {
                 }
             }
 
-            if let photoData = note.photoData, let uiImage = UIImage(data: photoData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: 100)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
-            }
+            Text(note.text)
+                .font(.subheadline)
+                .lineLimit(4)
 
-            if !note.tags.isEmpty || !note.aiTags.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 4) {
-                        ForEach(note.tags + note.aiTags, id: \.self) { tag in
-                            Text(tag)
-                                .font(.caption2)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.accentColor.opacity(0.1))
-                                .clipShape(Capsule())
-                        }
+            if !note.tags.isEmpty || note.photoData != nil {
+                HStack(spacing: 6) {
+                    if note.photoData != nil {
+                        Image(systemName: "photo")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                    ForEach(note.tags, id: \.self) { tag in
+                        Text(tag)
+                            .font(.caption2)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.accentColor.opacity(0.1))
+                            .clipShape(Capsule())
                     }
                 }
             }
@@ -158,18 +145,4 @@ struct TodayView: View {
         }
     }
 
-    private var insightCard: some View {
-        Group {
-            if viewModel.isLoadingInsight {
-                HStack {
-                    ProgressView()
-                    Text(lang.localizedString("ai.analyzing"))
-                        .foregroundStyle(.secondary)
-                }
-            } else if let insight = viewModel.dailyInsight {
-                Text(insight)
-                    .font(.subheadline)
-            }
-        }
-    }
 }

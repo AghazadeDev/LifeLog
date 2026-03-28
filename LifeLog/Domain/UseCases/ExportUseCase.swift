@@ -30,10 +30,6 @@ struct ExportUseCase {
                 output += "[\(time)] \(mood)\nTEXT: \(note.text)\(tags)\n\n"
             }
 
-            if let summary = day.aiSummary {
-                output += "AI Summary: \(summary)\n\n"
-            }
-
             if index < sorted.count - 1 {
                 output += "---\n\n"
             }

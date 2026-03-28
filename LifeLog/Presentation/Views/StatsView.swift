@@ -73,16 +73,6 @@ struct StatsView: View {
                     }
                 }
 
-                // AI Reports
-                if #available(iOS 26.0, *) {
-                    Section(lang.localizedString("stats.aiReports")) {
-                        NavigationLink {
-                            AIReviewView(viewModel: viewModel)
-                        } label: {
-                            Label(lang.localizedString("ai.journalReview"), systemImage: "sparkles")
-                        }
-                    }
-                }
             }
             .listStyle(.insetGrouped)
             .navigationTitle(lang.localizedString("tab.stats"))

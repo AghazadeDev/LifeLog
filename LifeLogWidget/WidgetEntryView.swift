@@ -20,7 +20,7 @@ struct LifeLogWidgetEntryView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: "book.closed")
-                    .foregroundStyle(.accentColor)
+                    .foregroundStyle(.blue)
                 Text("LifeLog")
                     .font(.caption.bold())
             }
@@ -52,7 +52,7 @@ struct LifeLogWidgetEntryView: View {
             VStack(alignment: .leading, spacing: 6) {
                 HStack {
                     Image(systemName: "book.closed")
-                        .foregroundStyle(.accentColor)
+                        .foregroundStyle(.blue)
                     Text("LifeLog")
                         .font(.headline)
                 }

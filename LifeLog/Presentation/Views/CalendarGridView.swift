@@ -8,7 +8,7 @@ struct CalendarGridView: View {
     @State private var displayedMonth = Calendar.current.startOfDay(for: .now)
     private var lang = LanguageManager.shared
     private let calendar = Calendar.current
-    private let columns = Array(repeating: GridItem(.flexible()), count: 7)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: 4), count: 7)
 
     init(calendarData: [Date: Int], days: [DayEntry], onDaySelected: ((DayEntry) -> Void)? = nil) {
         self.calendarData = calendarData
@@ -19,10 +19,15 @@ struct CalendarGridView: View {
     var body: some View {
         VStack(spacing: 12) {
             monthHeader
+                .padding(.bottom, 4)
             weekdayHeader
             daysGrid
         }
+        .padding()
+        .background(Color(.systemGray6).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal)
+        .padding(.top, 8)
     }
 
     private var monthHeader: some View {
@@ -31,6 +36,7 @@ struct CalendarGridView: View {
                 displayedMonth = calendar.date(byAdding: .month, value: -1, to: displayedMonth) ?? displayedMonth
             } label: {
                 Image(systemName: "chevron.left")
+                    .font(.body.weight(.semibold))
             }
             Spacer()
             Text(displayedMonth, format: .dateTime.month(.wide).year())
@@ -40,6 +46,7 @@ struct CalendarGridView: View {
                 displayedMonth = calendar.date(byAdding: .month, value: 1, to: displayedMonth) ?? displayedMonth
             } label: {
                 Image(systemName: "chevron.right")
+                    .font(.body.weight(.semibold))
             }
         }
     }
@@ -48,7 +55,7 @@ struct CalendarGridView: View {
         HStack {
             ForEach(calendar.shortWeekdaySymbols, id: \.self) { symbol in
                 Text(symbol)
-                    .font(.caption2)
+                    .font(.caption2.weight(.medium))
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity)
             }
@@ -62,8 +69,8 @@ struct CalendarGridView: View {
                 if let date {
                     dayCell(for: date)
                 } else {
-                    Text("")
-                        .frame(height: 36)
+                    Color.clear
+                        .aspectRatio(1, contentMode: .fit)
                 }
             }
         }
@@ -80,26 +87,30 @@ struct CalendarGridView: View {
             }
         } label: {
             Text("\(calendar.component(.day, from: date))")
-                .font(.caption)
+                .font(.subheadline)
                 .fontWeight(isToday ? .bold : .regular)
-                .frame(width: 36, height: 36)
-                .background(heatColor(for: count))
-                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .foregroundStyle(count > 0 ? .white : .primary)
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(cellColor(count: count, isToday: isToday))
+                )
                 .overlay(
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: 8)
                         .stroke(isToday ? Color.accentColor : .clear, lineWidth: 2)
                 )
         }
         .buttonStyle(.plain)
     }
 
-    private func heatColor(for count: Int) -> Color {
+    private func cellColor(count: Int, isToday: Bool) -> Color {
         switch count {
-        case 0: return Color(.systemGray6)
-        case 1: return .green.opacity(0.2)
-        case 2...3: return .green.opacity(0.4)
-        case 4...5: return .green.opacity(0.6)
-        default: return .green.opacity(0.8)
+        case 0: return .clear
+        case 1: return .green.opacity(0.25)
+        case 2...3: return .green.opacity(0.45)
+        case 4...5: return .green.opacity(0.65)
+        default: return .green.opacity(0.85)
         }
     }
 

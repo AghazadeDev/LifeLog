@@ -14,6 +14,7 @@ struct JournalUseCase {
         dayEntry.notes.append(note)
         modelContext.insert(note)
         try? modelContext.save()
+        refreshWidgetData()
     }
 
     func fetchOrCreateDay(for date: Date) -> DayEntry {
@@ -66,6 +67,7 @@ struct JournalUseCase {
         }
         modelContext.delete(note)
         try? modelContext.save()
+        refreshWidgetData()
     }
 
     func togglePin(_ note: NoteEntry) {
@@ -75,11 +77,6 @@ struct JournalUseCase {
 
     func updateNoteTags(_ note: NoteEntry, tags: [String]) {
         note.tags = tags
-        try? modelContext.save()
-    }
-
-    func updateNoteAITags(_ note: NoteEntry, aiTags: [String]) {
-        note.aiTags = aiTags
         try? modelContext.save()
     }
 
@@ -96,7 +93,7 @@ struct JournalUseCase {
         let descriptor = FetchDescriptor<NoteEntry>()
         guard let allNotes = try? modelContext.fetch(descriptor) else { return [] }
         return allNotes
-            .filter { $0.tags.contains(tag) || $0.aiTags.contains(tag) }
+            .filter { $0.tags.contains(tag) }
             .sorted { $0.createdAt > $1.createdAt }
     }
 
@@ -106,14 +103,23 @@ struct JournalUseCase {
         var tagSet = Set<String>()
         for note in allNotes {
             tagSet.formUnion(note.tags)
-            tagSet.formUnion(note.aiTags)
         }
         return tagSet.sorted()
     }
 
-    func updateDaySummary(_ day: DayEntry, summary: String) {
-        day.aiSummary = summary
-        try? modelContext.save()
+    func refreshWidgetData() {
+        let days = fetchAllDays()
+        let stats = StatsUseCase().calculate(from: days)
+        let todayNotes = fetchTodayNotes()
+        let todayMoods = todayNotes.compactMap { $0.mood }
+        var moodCounts: [String: Int] = [:]
+        for m in todayMoods { moodCounts[m, default: 0] += 1 }
+        let dominantMood = moodCounts.max(by: { $0.value < $1.value })?.key
+        WidgetDataService.update(
+            todayCount: todayNotes.count,
+            currentStreak: stats.currentStreak,
+            dominantMood: dominantMood
+        )
     }
 
     func updateDayDominantMood(_ day: DayEntry) {

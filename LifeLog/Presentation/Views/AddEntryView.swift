@@ -5,6 +5,7 @@ struct AddEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AddEntryViewModel
     @State private var selectedPhoto: PhotosPickerItem?
+    @FocusState private var isTextFocused: Bool
     private var lang = LanguageManager.shared
 
     init(viewModel: AddEntryViewModel) {
@@ -25,6 +26,7 @@ struct AddEntryView: View {
 
                     // Text Editor
                     TextEditor(text: $viewModel.entryText)
+                        .focused($isTextFocused)
                         .padding(8)
                         .background(Color(.systemGray6))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -35,35 +37,14 @@ struct AddEntryView: View {
 
                     // Tags
                     VStack(alignment: .leading, spacing: 6) {
-                        HStack {
-                            Text(lang.localizedString("addEntry.tags"))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            Spacer()
-                            if #available(iOS 26.0, *) {
-                                Button {
-                                    viewModel.autoTag()
-                                } label: {
-                                    if viewModel.isAutoTagging {
-                                        ProgressView()
-                                            .controlSize(.small)
-                                    } else {
-                                        Label(lang.localizedString("addEntry.aiTag"), systemImage: "sparkles")
-                                            .font(.caption)
-                                    }
-                                }
-                                .disabled(viewModel.entryText.isEmpty || viewModel.isAutoTagging)
-                            }
-                        }
+                        Text(lang.localizedString("addEntry.tags"))
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                         TagInputView(selectedTags: $viewModel.selectedTags)
                     }
 
                     // Pin toggle
                     Toggle(lang.localizedString("addEntry.pin"), isOn: $viewModel.isPinned)
-
-                    if viewModel.speechRecognizer.isRecording {
-                        liveTranscript
-                    }
 
                     if let error = viewModel.speechRecognizer.errorMessage {
                         Text(error)
@@ -71,9 +52,14 @@ struct AddEntryView: View {
                             .foregroundStyle(.red)
                     }
 
-                    micButton
+                    if viewModel.speechRecognizer.isRecording {
+                        liveTranscript
+                    }
                 }
                 .padding()
+            }
+            .onTapGesture {
+                isTextFocused = false
             }
             .navigationTitle(lang.localizedString("addEntry.title"))
             .navigationBarTitleDisplayMode(.inline)
@@ -87,6 +73,24 @@ struct AddEntryView: View {
                         dismiss()
                     }
                     .disabled(!viewModel.canSave)
+                }
+                ToolbarItem(placement: .keyboard) {
+                    HStack {
+                        Button {
+                            viewModel.toggleRecording()
+                        } label: {
+                            Image(systemName: viewModel.speechRecognizer.isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                                .font(.title2)
+                                .foregroundStyle(viewModel.speechRecognizer.isRecording ? .red : .blue)
+                        }
+                        Spacer()
+                        Button {
+                            isTextFocused = false
+                        } label: {
+                            Image(systemName: "keyboard.chevron.compact.down")
+                                .font(.title3)
+                        }
+                    }
                 }
             }
         }
@@ -146,16 +150,5 @@ struct AddEntryView: View {
                 .lineLimit(3)
         }
         .padding(.horizontal)
-    }
-
-    private var micButton: some View {
-        Button {
-            viewModel.toggleRecording()
-        } label: {
-            Image(systemName: viewModel.speechRecognizer.isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                .font(.system(size: 56))
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(viewModel.speechRecognizer.isRecording ? .red : .blue)
-        }
     }
 }

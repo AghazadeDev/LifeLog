@@ -31,5 +31,8 @@ struct LifeLogApp: App {
 
     init() {
         NotificationUseCase().requestAndSchedule()
+        #if DEBUG
+        MockDataSeeder(modelContext: store.modelContainer.mainContext).seedIfNeeded()
+        #endif
     }
 }

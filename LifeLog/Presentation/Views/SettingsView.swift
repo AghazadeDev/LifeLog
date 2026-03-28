@@ -83,21 +83,6 @@ struct SettingsView: View {
                     }
                 }
 
-                // AI Features
-                Section(footer: Text(lang.localizedString("settings.ai.footer"))) {
-                    HStack {
-                        Label(lang.localizedString("settings.ai"), systemImage: "sparkles")
-                        Spacer()
-                        if #available(iOS 26.0, *) {
-                            Text(lang.localizedString("settings.ai.available"))
-                                .foregroundStyle(.green)
-                        } else {
-                            Text(lang.localizedString("settings.ai.unavailable"))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-
                 // About
                 Section {
                     HStack {

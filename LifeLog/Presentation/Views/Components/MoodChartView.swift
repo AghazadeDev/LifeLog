@@ -30,10 +30,6 @@ struct MoodTrendChartView: View {
                             x: .value("Date", entry.date),
                             y: .value("Mood", value)
                         )
-                        .annotation(position: .top) {
-                            Text(entry.mood)
-                                .font(.caption2)
-                        }
                     }
                 }
                 .chartYScale(domain: 1...5)

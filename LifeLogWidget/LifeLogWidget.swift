@@ -1,13 +1,6 @@
 import WidgetKit
 import SwiftUI
 
-@main
-struct LifeLogWidgetBundle: WidgetBundle {
-    var body: some Widget {
-        LifeLogWidget()
-    }
-}
-
 struct LifeLogWidget: Widget {
     let kind: String = "LifeLogWidget"
 

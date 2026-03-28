@@ -14,19 +14,12 @@ struct DayDetailView: View {
 
     var body: some View {
         List {
-            // AI Summary
-            if let summary = day.aiSummary {
-                Section(lang.localizedString("dayDetail.aiSummary")) {
-                    Text(summary)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
             // Notes
             Section {
                 ForEach(notes, id: \.id) { note in
-                    noteRow(note)
+                    NavigationLink(value: note) {
+                        noteRow(note)
+                    }
                 }
                 .onDelete { offsets in
                     for index in offsets {
@@ -42,16 +35,15 @@ struct DayDetailView: View {
     }
 
     private func noteRow(_ note: NoteEntry) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .top) {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
                 if let mood = note.mood {
                     Text(mood)
                 }
                 Text(note.createdAt, format: .dateTime.hour().minute())
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .frame(width: 50, alignment: .leading)
-                Text(note.text)
+                Spacer()
                 if note.isPinned {
                     Image(systemName: "pin.fill")
                         .font(.caption2)
@@ -59,37 +51,24 @@ struct DayDetailView: View {
                 }
             }
 
-            if let photoData = note.photoData, let uiImage = UIImage(data: photoData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: 150)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-            }
+            Text(note.text)
+                .font(.subheadline)
+                .lineLimit(6)
 
-            if !note.tags.isEmpty || !note.aiTags.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 4) {
-                        ForEach(note.tags, id: \.self) { tag in
-                            Text(tag)
-                                .font(.caption2)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.accentColor.opacity(0.1))
-                                .clipShape(Capsule())
-                        }
-                        ForEach(note.aiTags, id: \.self) { tag in
-                            HStack(spacing: 2) {
-                                Image(systemName: "sparkles")
-                                    .font(.system(size: 8))
-                                Text(tag)
-                            }
+            if !note.tags.isEmpty || note.photoData != nil {
+                HStack(spacing: 6) {
+                    if note.photoData != nil {
+                        Image(systemName: "photo")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                    ForEach(note.tags, id: \.self) { tag in
+                        Text(tag)
                             .font(.caption2)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(Color.purple.opacity(0.1))
+                            .background(Color.accentColor.opacity(0.1))
                             .clipShape(Capsule())
-                        }
                     }
                 }
             }

@@ -79,7 +79,7 @@ struct StatsUseCase {
         // Top tags
         var tagCounts: [String: Int] = [:]
         for note in allNotes {
-            for tag in note.tags + note.aiTags {
+            for tag in note.tags {
                 tagCounts[tag, default: 0] += 1
             }
         }

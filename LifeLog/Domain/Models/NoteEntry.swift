@@ -10,7 +10,6 @@ final class NoteEntry {
     var mood: String?
     @Attribute(.externalStorage) var photoData: Data?
     var tags: [String]
-    var aiTags: [String]
     var isPinned: Bool
 
     init(text: String, createdAt: Date = .now, audioURL: URL? = nil,
@@ -22,7 +21,6 @@ final class NoteEntry {
         self.mood = mood
         self.photoData = photoData
         self.tags = tags
-        self.aiTags = []
         self.isPinned = isPinned
     }
 }

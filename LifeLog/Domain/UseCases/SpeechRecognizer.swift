@@ -7,6 +7,7 @@ final class SpeechRecognizer {
     var transcript = ""
     var isRecording = false
     var errorMessage: String?
+    var onTranscriptUpdate: ((String) -> Void)?
 
     private var audioEngine = AVAudioEngine()
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -56,6 +57,7 @@ final class SpeechRecognizer {
             guard let self else { return }
             if let result {
                 self.transcript = result.bestTranscription.formattedString
+                self.onTranscriptUpdate?(self.transcript)
             }
             if error != nil || (result?.isFinal ?? false) {
                 self.stopRecording()

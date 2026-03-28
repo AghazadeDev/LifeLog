@@ -6,7 +6,6 @@ final class DayEntry {
     @Attribute(.unique) var date: Date
     @Relationship(deleteRule: .cascade, inverse: \NoteEntry.dayEntry)
     var notes: [NoteEntry]
-    var aiSummary: String?
     var dominantMood: String?
 
     init(date: Date) {

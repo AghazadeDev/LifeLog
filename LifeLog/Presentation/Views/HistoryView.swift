@@ -58,17 +58,8 @@ struct HistoryView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        Button {
-                            viewModel.exportJournal()
-                        } label: {
-                            Label(lang.localizedString("history.exportText"), systemImage: "doc.text")
-                        }
-                        Button {
-                            viewModel.exportPDF()
-                        } label: {
-                            Label(lang.localizedString("history.exportPDF"), systemImage: "doc.richtext")
-                        }
+                    Button {
+                        viewModel.exportJournal()
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                     }
@@ -83,6 +74,9 @@ struct HistoryView: View {
                 DayDetailView(day: day, notes: viewModel.notesForDay(day)) { note in
                     viewModel.deleteNote(note)
                 }
+            }
+            .navigationDestination(for: NoteEntry.self) { note in
+                NoteDetailView(note: note)
             }
             .onAppear { viewModel.loadDays() }
             .overlay {
