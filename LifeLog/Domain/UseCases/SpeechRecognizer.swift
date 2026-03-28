@@ -11,7 +11,11 @@ final class SpeechRecognizer {
     private var audioEngine = AVAudioEngine()
     private var recognitionTask: SFSpeechRecognitionTask?
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-    private let speechRecognizer = SFSpeechRecognizer()
+    private var speechRecognizer: SFSpeechRecognizer?
+
+    init() {
+        speechRecognizer = Self.makeSpeechRecognizer()
+    }
 
     func requestAuthorization() async -> Bool {
         await withCheckedContinuation { continuation in
@@ -24,22 +28,26 @@ final class SpeechRecognizer {
     func startRecording() {
         guard !isRecording else { return }
 
+        let lang = LanguageManager.shared
+
         resetTask()
         transcript = ""
         errorMessage = nil
+
+        speechRecognizer = Self.makeSpeechRecognizer()
 
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
-            errorMessage = "Audio session error"
+            errorMessage = lang.localizedString("speech.error.audioSession")
             return
         }
 
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest, let speechRecognizer, speechRecognizer.isAvailable else {
-            errorMessage = "Speech recognition unavailable"
+            errorMessage = lang.localizedString("speech.error.unavailable")
             return
         }
         recognitionRequest.shouldReportPartialResults = true
@@ -65,7 +73,7 @@ final class SpeechRecognizer {
             try audioEngine.start()
             isRecording = true
         } catch {
-            errorMessage = "Audio engine error"
+            errorMessage = lang.localizedString("speech.error.audioEngine")
             resetTask()
         }
     }
@@ -85,5 +93,14 @@ final class SpeechRecognizer {
         recognitionTask?.cancel()
         recognitionTask = nil
         recognitionRequest = nil
+    }
+
+    private static func makeSpeechRecognizer() -> SFSpeechRecognizer? {
+        let locale = LanguageManager.shared.locale
+        if let recognizer = SFSpeechRecognizer(locale: locale), recognizer.isAvailable {
+            return recognizer
+        }
+        let fallback = Locale(identifier: "en-US")
+        return SFSpeechRecognizer(locale: fallback)
     }
 }

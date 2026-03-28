@@ -1,0 +1,2 @@
+NSMicrophoneUsageDescription = "LifeLog нужен доступ к микрофону для голосовых заметок";
+NSSpeechRecognitionUsageDescription = "LifeLog использует распознавание речи для транскрибации голосовых заметок";

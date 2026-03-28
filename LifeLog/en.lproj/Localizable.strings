@@ -1,0 +1,51 @@
+/* ===== Tabs ===== */
+"tab.today" = "Today";
+"tab.history" = "History";
+"tab.stats" = "Stats";
+
+/* ===== Today Screen ===== */
+"today.empty" = "No entries yet";
+
+/* ===== Add Entry Screen ===== */
+"addEntry.title" = "New Entry";
+"addEntry.cancel" = "Cancel";
+"addEntry.save" = "Save";
+"addEntry.listening" = "Listening...";
+
+/* ===== History Screen ===== */
+"history.export" = "Export";
+"history.empty" = "No history yet";
+"history.entryCount" = "%lld entries";
+
+/* ===== Stats Screen ===== */
+"stats.totalDays" = "Total Days";
+"stats.currentStreak" = "Current Streak";
+"stats.longestStreak" = "Longest Streak";
+"stats.days" = "%lld days";
+
+/* ===== Speech Recognition ===== */
+"speech.error.micDenied" = "Microphone permission denied";
+"speech.error.audioSession" = "Audio session error";
+"speech.error.unavailable" = "Speech recognition unavailable";
+"speech.error.audioEngine" = "Audio engine error";
+"speech.error.languageNotSupported" = "Speech recognition is not supported for this language";
+
+/* ===== Notifications ===== */
+"notification.title" = "LifeLog";
+"notification.body" = "Don't forget to log your day";
+
+/* ===== Settings Screen ===== */
+"tab.settings" = "Settings";
+"settings.language" = "Language";
+"settings.language.footer" = "Choose the app display language";
+"settings.appearance" = "Appearance";
+"settings.appearance.system" = "System";
+"settings.appearance.light" = "Light";
+"settings.appearance.dark" = "Dark";
+
+/* ===== Common ===== */
+"common.delete" = "Delete";
+
+/* ===== Info.plist ===== */
+"NSMicrophoneUsageDescription" = "LifeLog needs microphone access for voice notes";
+"NSSpeechRecognitionUsageDescription" = "LifeLog uses speech recognition to transcribe your voice notes";

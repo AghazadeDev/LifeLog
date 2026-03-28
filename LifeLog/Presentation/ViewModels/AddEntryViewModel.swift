@@ -34,7 +34,7 @@ final class AddEntryViewModel {
                 if authorized {
                     speechRecognizer.startRecording()
                 } else {
-                    speechRecognizer.errorMessage = "Microphone permission denied"
+                    speechRecognizer.errorMessage = LanguageManager.shared.localizedString("speech.error.micDenied")
                 }
             }
         }

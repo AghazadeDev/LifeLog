@@ -24,6 +24,11 @@ final class HistoryViewModel {
         journalUseCase.notesForDay(day)
     }
 
+    func deleteNote(_ note: NoteEntry) {
+        journalUseCase.deleteNote(note)
+        loadDays()
+    }
+
     func exportJournal() {
         exportFileURL = exportUseCase.export(days: days)
         if exportFileURL != nil {

@@ -17,4 +17,9 @@ final class TodayViewModel {
     func loadNotes() {
         todayNotes = journalUseCase.fetchTodayNotes()
     }
+
+    func deleteNote(_ note: NoteEntry) {
+        journalUseCase.deleteNote(note)
+        loadNotes()
+    }
 }

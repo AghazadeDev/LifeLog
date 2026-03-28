@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StatsView: View {
     @State private var viewModel: StatsViewModel
+    private var lang = LanguageManager.shared
 
     init(viewModel: StatsViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -10,12 +11,24 @@ struct StatsView: View {
     var body: some View {
         NavigationStack {
             List {
-                statRow(title: "Total Days", value: "\(viewModel.stats.totalDays)", icon: "calendar")
-                statRow(title: "Current Streak", value: "\(viewModel.stats.currentStreak) days", icon: "flame")
-                statRow(title: "Longest Streak", value: "\(viewModel.stats.longestStreak) days", icon: "trophy")
+                statRow(
+                    title: lang.localizedString("stats.totalDays"),
+                    value: "\(viewModel.stats.totalDays)",
+                    icon: "calendar"
+                )
+                statRow(
+                    title: lang.localizedString("stats.currentStreak"),
+                    value: String(format: lang.localizedString("stats.days"), viewModel.stats.currentStreak),
+                    icon: "flame"
+                )
+                statRow(
+                    title: lang.localizedString("stats.longestStreak"),
+                    value: String(format: lang.localizedString("stats.days"), viewModel.stats.longestStreak),
+                    icon: "trophy"
+                )
             }
             .listStyle(.insetGrouped)
-            .navigationTitle("Stats")
+            .navigationTitle(lang.localizedString("tab.stats"))
             .onAppear { viewModel.loadStats() }
         }
     }

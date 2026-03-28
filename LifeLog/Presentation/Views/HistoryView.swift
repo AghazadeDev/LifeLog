@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HistoryView: View {
     @State private var viewModel: HistoryViewModel
+    private var lang = LanguageManager.shared
 
     init(viewModel: HistoryViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -11,21 +12,23 @@ struct HistoryView: View {
         NavigationStack {
             List(viewModel.days, id: \.id) { day in
                 NavigationLink {
-                    DayDetailView(day: day, notes: viewModel.notesForDay(day))
+                    DayDetailView(day: day, notes: viewModel.notesForDay(day)) { note in
+                        viewModel.deleteNote(note)
+                    }
                 } label: {
                     HStack {
                         Text(day.date, format: .dateTime.year().month().day())
                         Spacer()
-                        Text("\(day.notes.count) entries")
+                        Text(String(format: lang.localizedString("history.entryCount"), day.notes.count))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
             .listStyle(.plain)
-            .navigationTitle("History")
+            .navigationTitle(lang.localizedString("tab.history"))
             .toolbar {
-                Button("Export") {
+                Button(lang.localizedString("history.export")) {
                     viewModel.exportJournal()
                 }
             }
@@ -37,7 +40,10 @@ struct HistoryView: View {
             .onAppear { viewModel.loadDays() }
             .overlay {
                 if viewModel.days.isEmpty {
-                    ContentUnavailableView("No history yet", systemImage: "calendar")
+                    ContentUnavailableView(
+                        lang.localizedString("history.empty"),
+                        systemImage: "calendar"
+                    )
                 }
             }
         }

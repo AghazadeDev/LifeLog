@@ -4,6 +4,7 @@ import SwiftData
 struct TodayView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel: TodayViewModel
+    private var lang = LanguageManager.shared
 
     init(viewModel: TodayViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -11,22 +12,32 @@ struct TodayView: View {
 
     var body: some View {
         NavigationStack {
-            List(viewModel.todayNotes, id: \.id) { note in
-                HStack(alignment: .top) {
-                    Text(note.createdAt, format: .dateTime.hour().minute())
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .frame(width: 50, alignment: .leading)
-                    Text(note.text)
+            List {
+                ForEach(viewModel.todayNotes, id: \.id) { note in
+                    HStack(alignment: .top) {
+                        Text(note.createdAt, format: .dateTime.hour().minute())
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .frame(width: 50, alignment: .leading)
+                        Text(note.text)
+                    }
+                }
+                .onDelete { offsets in
+                    for index in offsets {
+                        viewModel.deleteNote(viewModel.todayNotes[index])
+                    }
                 }
             }
             .listStyle(.plain)
             .overlay {
                 if viewModel.todayNotes.isEmpty {
-                    ContentUnavailableView("No entries yet", systemImage: "pencil.line")
+                    ContentUnavailableView(
+                        lang.localizedString("today.empty"),
+                        systemImage: "pencil.line"
+                    )
                 }
             }
-            .navigationTitle("Today")
+            .navigationTitle(lang.localizedString("tab.today"))
             .toolbar {
                 Button {
                     viewModel.showAddEntry = true

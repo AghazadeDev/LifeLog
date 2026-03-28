@@ -45,4 +45,15 @@ struct JournalUseCase {
     func notesForDay(_ day: DayEntry) -> [NoteEntry] {
         day.notes.sorted { $0.createdAt < $1.createdAt }
     }
+
+    func deleteNote(_ note: NoteEntry) {
+        if let day = note.dayEntry {
+            day.notes.removeAll { $0.id == note.id }
+            if day.notes.isEmpty {
+                modelContext.delete(day)
+            }
+        }
+        modelContext.delete(note)
+        try? modelContext.save()
+    }
 }

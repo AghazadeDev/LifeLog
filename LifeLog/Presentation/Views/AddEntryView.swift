@@ -3,6 +3,7 @@ import SwiftUI
 struct AddEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AddEntryViewModel
+    private var lang = LanguageManager.shared
 
     init(viewModel: AddEntryViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -32,14 +33,14 @@ struct AddEntryView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("New Entry")
+            .navigationTitle(lang.localizedString("addEntry.title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(lang.localizedString("addEntry.cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button(lang.localizedString("addEntry.save")) {
                         viewModel.saveEntry()
                         dismiss()
                     }
@@ -55,7 +56,7 @@ struct AddEntryView: View {
                 .fill(.red)
                 .frame(width: 8, height: 8)
             Text(viewModel.speechRecognizer.transcript.isEmpty
-                 ? "Listening..."
+                 ? lang.localizedString("addEntry.listening")
                  : viewModel.speechRecognizer.transcript)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)

@@ -1,0 +1,51 @@
+/* ===== Tabs ===== */
+"tab.today" = "Сегодня";
+"tab.history" = "История";
+"tab.stats" = "Статистика";
+
+/* ===== Today Screen ===== */
+"today.empty" = "Записей пока нет";
+
+/* ===== Add Entry Screen ===== */
+"addEntry.title" = "Новая запись";
+"addEntry.cancel" = "Отмена";
+"addEntry.save" = "Сохранить";
+"addEntry.listening" = "Слушаю...";
+
+/* ===== History Screen ===== */
+"history.export" = "Экспорт";
+"history.empty" = "Истории пока нет";
+"history.entryCount" = "%lld записей";
+
+/* ===== Stats Screen ===== */
+"stats.totalDays" = "Всего дней";
+"stats.currentStreak" = "Текущая серия";
+"stats.longestStreak" = "Лучшая серия";
+"stats.days" = "%lld дней";
+
+/* ===== Speech Recognition ===== */
+"speech.error.micDenied" = "Доступ к микрофону запрещён";
+"speech.error.audioSession" = "Ошибка аудиосессии";
+"speech.error.unavailable" = "Распознавание речи недоступно";
+"speech.error.audioEngine" = "Ошибка аудиодвижка";
+"speech.error.languageNotSupported" = "Распознавание речи не поддерживается для данного языка";
+
+/* ===== Notifications ===== */
+"notification.title" = "LifeLog";
+"notification.body" = "Не забудьте записать свой день";
+
+/* ===== Settings Screen ===== */
+"tab.settings" = "Настройки";
+"settings.language" = "Язык";
+"settings.language.footer" = "Выберите язык отображения приложения";
+"settings.appearance" = "Оформление";
+"settings.appearance.system" = "Системная";
+"settings.appearance.light" = "Светлая";
+"settings.appearance.dark" = "Тёмная";
+
+/* ===== Common ===== */
+"common.delete" = "Удалить";
+
+/* ===== Info.plist ===== */
+"NSMicrophoneUsageDescription" = "LifeLog нужен доступ к микрофону для голосовых заметок";
+"NSSpeechRecognitionUsageDescription" = "LifeLog использует распознавание речи для транскрибации голосовых заметок";

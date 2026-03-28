@@ -10,9 +10,10 @@ struct NotificationUseCase {
     }
 
     private func scheduleDailyReminder(center: UNUserNotificationCenter) {
+        let lang = LanguageManager.shared
         let content = UNMutableNotificationContent()
-        content.title = "LifeLog"
-        content.body = "Don't forget to log your day"
+        content.title = lang.localizedString("notification.title")
+        content.body = lang.localizedString("notification.body")
         content.sound = .default
 
         var dateComponents = DateComponents()

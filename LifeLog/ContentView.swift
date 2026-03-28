@@ -3,17 +3,21 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    private var lang = LanguageManager.shared
 
     var body: some View {
         TabView {
-            Tab("Today", systemImage: "square.and.pencil") {
+            Tab(lang.localizedString("tab.today"), systemImage: "square.and.pencil") {
                 TodayView(viewModel: TodayViewModel(modelContext: modelContext))
             }
-            Tab("History", systemImage: "clock") {
+            Tab(lang.localizedString("tab.history"), systemImage: "clock") {
                 HistoryView(viewModel: HistoryViewModel(modelContext: modelContext))
             }
-            Tab("Stats", systemImage: "chart.bar") {
+            Tab(lang.localizedString("tab.stats"), systemImage: "chart.bar") {
                 StatsView(viewModel: StatsViewModel(modelContext: modelContext))
+            }
+            Tab(lang.localizedString("tab.settings"), systemImage: "gearshape") {
+                SettingsView()
             }
         }
     }
