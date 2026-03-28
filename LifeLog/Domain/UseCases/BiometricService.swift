@@ -30,12 +30,16 @@ final class BiometricService {
         }
     }
 
+    var usesBiometric: Bool {
+        biometricType != .none
+    }
+
     var biometricName: String {
         switch biometricType {
         case .faceID: return "Face ID"
         case .touchID: return "Touch ID"
         case .opticID: return "Optic ID"
-        default: return "Biometrics"
+        default: return "Passcode"
         }
     }
 
@@ -44,7 +48,23 @@ final class BiometricService {
         case .faceID: return "faceid"
         case .touchID: return "touchid"
         case .opticID: return "opticid"
-        default: return "lock"
+        default: return "lock.fill"
+        }
+    }
+
+    var lockLabel: String {
+        if usesBiometric {
+            return biometricName
+        } else {
+            return "Passcode"
+        }
+    }
+
+    var lockIcon: String {
+        if usesBiometric {
+            return biometricIcon
+        } else {
+            return "lock.fill"
         }
     }
 
@@ -69,6 +89,14 @@ final class BiometricService {
         } catch {
             return false
         }
+    }
+
+    func unlockWithPasscode(_ code: String) -> Bool {
+        if PasscodeService.verify(code) {
+            isUnlocked = true
+            return true
+        }
+        return false
     }
 
     func lock() {

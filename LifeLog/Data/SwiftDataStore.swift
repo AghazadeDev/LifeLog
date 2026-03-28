@@ -11,6 +11,19 @@ final class SwiftDataStore {
             isStoredInMemoryOnly: false,
             cloudKitDatabase: .automatic
         )
-        self.modelContainer = try! ModelContainer(for: schema, configurations: [config])
+        do {
+            self.modelContainer = try ModelContainer(for: schema, configurations: [config])
+        } catch {
+            let url = config.url
+            let related = [
+                url,
+                url.deletingPathExtension().appendingPathExtension("store-shm"),
+                url.deletingPathExtension().appendingPathExtension("store-wal")
+            ]
+            for file in related {
+                try? FileManager.default.removeItem(at: file)
+            }
+            self.modelContainer = try! ModelContainer(for: schema, configurations: [config])
+        }
     }
 }

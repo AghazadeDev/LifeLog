@@ -1,10 +1,10 @@
 import SwiftUI
 
 public struct TagInputView: View {
-    @Binding public var selectedTags: [String]
-    @State private var newTagText = ""
-    @State private var showSuggestions = false
-    private var lang = LanguageManager.shared
+    @Binding var selectedTags: [String]
+    @State var newTagText = ""
+    @State var showSuggestions = false
+    var lang = LanguageManager.shared
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 8) {

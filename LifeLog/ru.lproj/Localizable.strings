@@ -113,6 +113,15 @@
 "biometric.reason" = "Разблокировать LifeLog";
 "lock.subtitle" = "Ваш дневник заблокирован";
 "lock.unlock" = "Разблокировать";
+"lock.enterPasscode" = "Введите код-пароль";
+"lock.wrongPasscode" = "Неверный код-пароль. Попробуйте снова.";
+
+/* ===== Passcode ===== */
+"settings.passcode.toggle" = "Блокировка код-паролем";
+"settings.passcode.change" = "Изменить код-пароль";
+"passcode.set" = "Установите 4-значный код-пароль";
+"passcode.confirm" = "Подтвердите код-пароль";
+"passcode.mismatch" = "Код-пароли не совпадают. Попробуйте снова.";
 
 /* ===== Common ===== */
 "common.delete" = "Удалить";

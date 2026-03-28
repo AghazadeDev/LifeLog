@@ -3,7 +3,7 @@ import Charts
 
 struct MoodTrendChartView: View {
     let moodTrend: [(date: Date, mood: String)]
-    private var lang = LanguageManager.shared
+    var lang = LanguageManager.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -56,7 +56,7 @@ struct MoodTrendChartView: View {
 
 struct MoodDistributionChartView: View {
     let distribution: [String: Int]
-    private var lang = LanguageManager.shared
+    var lang = LanguageManager.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {

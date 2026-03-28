@@ -2,7 +2,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @Bindable private var lang = LanguageManager.shared
-    @State private var biometricEnabled = BiometricService.isEnabled
+    @State private var lockEnabled = BiometricService.isEnabled
+    @State private var showSetPasscode = false
+    @State private var showChangePasscode = false
 
     var body: some View {
         NavigationStack {
@@ -26,17 +28,47 @@ struct SettingsView: View {
                 }
 
                 // Security
-                if BiometricService.isBiometricAvailable {
-                    Section(footer: Text(lang.localizedString("settings.biometric.footer"))) {
-                        Toggle(isOn: $biometricEnabled) {
-                            let service = BiometricService()
+                Section(footer: Text(lang.localizedString("settings.biometric.footer"))) {
+                    if BiometricService.isBiometricAvailable {
+                        let service = BiometricService()
+                        Toggle(isOn: $lockEnabled) {
                             Label(
                                 String(format: lang.localizedString("settings.biometric.toggle"), service.biometricName),
                                 systemImage: service.biometricIcon
                             )
                         }
-                        .onChange(of: biometricEnabled) { _, newValue in
+                        .onChange(of: lockEnabled) { _, newValue in
                             BiometricService.isEnabled = newValue
+                        }
+                    } else {
+                        Toggle(isOn: $lockEnabled) {
+                            Label(
+                                lang.localizedString("settings.passcode.toggle"),
+                                systemImage: "lock.fill"
+                            )
+                        }
+                        .onChange(of: lockEnabled) { _, newValue in
+                            if newValue {
+                                if !PasscodeService.hasPasscode {
+                                    showSetPasscode = true
+                                } else {
+                                    BiometricService.isEnabled = true
+                                }
+                            } else {
+                                BiometricService.isEnabled = false
+                                PasscodeService.deletePasscode()
+                            }
+                        }
+
+                        if lockEnabled && PasscodeService.hasPasscode {
+                            Button {
+                                showChangePasscode = true
+                            } label: {
+                                Label(
+                                    lang.localizedString("settings.passcode.change"),
+                                    systemImage: "arrow.triangle.2.circlepath"
+                                )
+                            }
                         }
                     }
                 }
@@ -77,6 +109,19 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle(lang.localizedString("tab.settings"))
+            .sheet(isPresented: $showSetPasscode) {
+                PasscodeSetupView { success in
+                    if success {
+                        BiometricService.isEnabled = true
+                        lockEnabled = true
+                    } else {
+                        lockEnabled = false
+                    }
+                }
+            }
+            .sheet(isPresented: $showChangePasscode) {
+                PasscodeSetupView(isChange: true) { _ in }
+            }
         }
     }
 }

@@ -113,6 +113,15 @@
 "biometric.reason" = "Unlock LifeLog";
 "lock.subtitle" = "Your journal is locked";
 "lock.unlock" = "Unlock";
+"lock.enterPasscode" = "Enter Passcode";
+"lock.wrongPasscode" = "Wrong passcode. Try again.";
+
+/* ===== Passcode ===== */
+"settings.passcode.toggle" = "Lock with Passcode";
+"settings.passcode.change" = "Change Passcode";
+"passcode.set" = "Set a 4-digit passcode";
+"passcode.confirm" = "Confirm your passcode";
+"passcode.mismatch" = "Passcodes don't match. Try again.";
 
 /* ===== Common ===== */
 "common.delete" = "Delete";
